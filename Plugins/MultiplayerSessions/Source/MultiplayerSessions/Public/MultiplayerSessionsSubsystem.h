@@ -18,7 +18,9 @@ class MULTIPLAYERSESSIONS_API UMultiplayerSessionsSubsystem : public UGameInstan
 public:
 	UMultiplayerSessionsSubsystem();
 
+	//
 	// To handle session funcionality. The Menu class will call these
+	//
 	void CreateSession(int32 NumPublicConnections, FString MatchType);
 	void FindSessions(int32 MaxSearchResults);
 	void JoinSession(const FOnlineSessionSearchResult& SessionResult);
@@ -27,8 +29,10 @@ public:
 
 protected:
 
+	//
 	// Internal callbacks for the delegates we'll add to the Online Session Interface delegate list.
 	// These don't need to be called outside this class.
+	//
 	void OnCreateSessionComplete(FName SessionName, bool bWasSuccessful);
 	void OnFindSessionsComplete(bool bWasSuccessful);
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
@@ -38,11 +42,18 @@ protected:
 private:
 	IOnlineSessionPtr SessionInterface;
 
+	//
 	// To add to the Online Session Interface delegate list.
 	// We'll bind our MultiplayerSessionsSubsystem internal callbacks to these.
+	//
 	FOnCreateSessionCompleteDelegate CreateSessionCompleteDelegate;
-	FOnFindSessionsCompleteDelegate FindSessionCompleteDelegate;
+	FDelegateHandle CreateSessionCompleteDelegateHandle;
+	FOnFindSessionsCompleteDelegate FindSessionsCompleteDelegate;
+	FDelegateHandle FindSessionsCompleteDelegateHandle;
 	FOnJoinSessionCompleteDelegate JoinSessionCompleteDelegate;
+	FDelegateHandle JoinSessionCompleteDelegateHandle;
 	FOnDestroySessionCompleteDelegate DestroySessionCompleteDelegate;
+	FDelegateHandle DestroySessionCompleteDelegateHandle;
 	FOnStartSessionCompleteDelegate StartSessionCompleteDelegate;
+	FDelegateHandle StartSessionCompleteDelegateHandle;
 };
